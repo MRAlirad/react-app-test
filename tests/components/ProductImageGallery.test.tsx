@@ -8,6 +8,7 @@ describe('ProductImageGallery', () => {
 
 		expect(container).toBeEmptyDOMElement();
 	});
+
 	it('should render a list of images', () => {
 		const imageUrls = ['url1', 'url2', 'url3'];
 		render(<ProductImageGallery imageUrls={imageUrls} />);
