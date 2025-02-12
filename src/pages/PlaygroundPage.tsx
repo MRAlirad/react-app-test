@@ -1,15 +1,9 @@
 // import Onboarding from "../components/Onboarding";
 
-import { Toaster } from 'react-hot-toast';
-import ToastDemo from '../components/ToastDemo';
+import OrderStatusSelector from '../components/OrderStatusSelector';
 
 const PlaygroundPage = () => {
-	return (
-		<>
-			<ToastDemo />
-			<Toaster />
-		</>
-	);
+	return <OrderStatusSelector onChange={console.log} />;
 };
 
 export default PlaygroundPage;
