@@ -1,4 +1,4 @@
-import { it, expect, vi, describe } from 'vitest';
+import { it, expect, describe } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ProductList from '../../src/components/ProductList';
 import { server } from '../mocks/server';
