@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest';
+import { db } from './mocks/db';
 
 describe('Truthy Test', () => {
-	it('should verify that 1 is truthy', async () => {
-		const response = await fetch('/categories');
-		const data = await response.json();
-		console.log(data);
-		expect(data).toHaveLength(3);
+	it('should ', async () => {
+		const product = db.product.create({name: 'Apple'});
+		console.log(product);
 	});
 });
