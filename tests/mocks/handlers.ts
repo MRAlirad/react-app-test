@@ -3,7 +3,8 @@
 import { db } from './db';
 
 export const handlers = [
-	...db.product.toHandlers('rest')
+	...db.product.toHandlers('rest'),
+	...db.category.toHandlers('rest'),
 	// http.get('/categories', () => {
 	// 	return HttpResponse.json([
 	// 		{ id: 1, name: 'Electronics' },
