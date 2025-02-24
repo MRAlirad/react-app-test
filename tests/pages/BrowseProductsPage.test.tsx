@@ -1,11 +1,11 @@
-import { it, expect, describe, beforeAll, afterAll } from 'vitest';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import BrowseProducts from '../../src/pages/BrowseProductsPage';
 import userEvent from '@testing-library/user-event';
-import { db, getProductByCategory } from '../mocks/db';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { Category, Product } from '../../src/entities';
-import { simulateDelay, simulateError } from '../utils';
+import BrowseProducts from '../../src/pages/BrowseProductsPage';
 import AllProviders from '../AllProviders';
+import { db, getProductByCategory } from '../mocks/db';
+import { simulateDelay, simulateError } from '../utils';
 
 describe('BrowseProductsPage', () => {
 	const categories: Category[] = [];
@@ -123,38 +123,38 @@ describe('BrowseProductsPage', () => {
 		const products = db.product.getAll();
 		expectProductsToBeInTheDocument(products);
 	});
-
-	const renderComponent = () => {
-		render(<BrowseProducts />, { wrapper: AllProviders });
-
-		const getProductsSkeleton = () => screen.queryByRole('progressbar', { name: /products/i });
-		const getCategoriesSkeleton = () => screen.getByRole('progressbar', { name: /categories/i });
-		const getCategoriesCoboBox = () => screen.queryByRole('combobox');
-		const selectCategory = async (name: RegExp | string) => {
-			await waitForElementToBeRemoved(getCategoriesSkeleton);
-			const combobox = getCategoriesCoboBox();
-			const user = userEvent.setup();
-			await user.click(combobox!);
-
-			const option = screen.getByRole('option', { name });
-			await user.click(option);
-		};
-		const expectProductsToBeInTheDocument = (products: Product[]) => {
-			const rows = screen.getAllByRole('row');
-			const dataRows = rows.slice(1);
-			expect(dataRows).toHaveLength(products.length);
-
-			products.forEach(product => {
-				expect(screen.getByText(product.name)).toBeInTheDocument();
-			});
-		};
-
-		return {
-			getProductsSkeleton,
-			getCategoriesSkeleton,
-			getCategoriesCoboBox,
-			selectCategory,
-			expectProductsToBeInTheDocument,
-		};
-	};
 });
+
+const renderComponent = () => {
+	render(<BrowseProducts />, { wrapper: AllProviders });
+
+	const getProductsSkeleton = () => screen.queryByRole('progressbar', { name: /products/i });
+	const getCategoriesSkeleton = () => screen.getByRole('progressbar', { name: /categories/i });
+	const getCategoriesCoboBox = () => screen.queryByRole('combobox');
+	const selectCategory = async (name: RegExp | string) => {
+		await waitForElementToBeRemoved(getCategoriesSkeleton);
+		const combobox = getCategoriesCoboBox();
+		const user = userEvent.setup();
+		await user.click(combobox!);
+
+		const option = screen.getByRole('option', { name });
+		await user.click(option);
+	};
+	const expectProductsToBeInTheDocument = (products: Product[]) => {
+		const rows = screen.getAllByRole('row');
+		const dataRows = rows.slice(1);
+		expect(dataRows).toHaveLength(products.length);
+
+		products.forEach(product => {
+			expect(screen.getByText(product.name)).toBeInTheDocument();
+		});
+	};
+
+	return {
+		getProductsSkeleton,
+		getCategoriesSkeleton,
+		getCategoriesCoboBox,
+		selectCategory,
+		expectProductsToBeInTheDocument,
+	};
+};
