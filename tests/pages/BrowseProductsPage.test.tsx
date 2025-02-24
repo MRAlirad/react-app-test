@@ -1,12 +1,11 @@
 import { it, expect, describe, beforeAll, afterAll } from 'vitest';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import { Theme } from '@radix-ui/themes';
 import BrowseProducts from '../../src/pages/BrowseProductsPage';
 import userEvent from '@testing-library/user-event';
 import { db, getProductByCategory } from '../mocks/db';
 import { Category, Product } from '../../src/entities';
-import { CartProvider } from '../../src/providers/CartProvider';
 import { simulateDelay, simulateError } from '../utils';
+import AllProviders from '../AllProviders';
 
 describe('BrowseProductsPage', () => {
 	const categories: Category[] = [];
@@ -79,7 +78,7 @@ describe('BrowseProductsPage', () => {
 		expect(await screen.findByText(/error/i)).toBeInTheDocument();
 	});
 
-	it.skip('should render categories', async () => {
+	it('should render categories', async () => {
 		const { getCategoriesSkeleton, getCategoriesCoboBox } = renderComponent();
 
 		await waitForElementToBeRemoved(getCategoriesSkeleton);
@@ -96,7 +95,7 @@ describe('BrowseProductsPage', () => {
 		});
 	});
 
-	it.skip('should render products', async () => {
+	it('should render products', async () => {
 		const { getProductsSkeleton } = renderComponent();
 
 		await waitForElementToBeRemoved(getProductsSkeleton);
@@ -124,15 +123,9 @@ describe('BrowseProductsPage', () => {
 		const products = db.product.getAll();
 		expectProductsToBeInTheDocument(products);
 	});
-	
+
 	const renderComponent = () => {
-		render(
-			<CartProvider>
-				<Theme>
-					<BrowseProducts />
-				</Theme>
-			</CartProvider>
-		);
+		render(<BrowseProducts />, { wrapper: AllProviders });
 
 		const getProductsSkeleton = () => screen.queryByRole('progressbar', { name: /products/i });
 		const getCategoriesSkeleton = () => screen.getByRole('progressbar', { name: /categories/i });
