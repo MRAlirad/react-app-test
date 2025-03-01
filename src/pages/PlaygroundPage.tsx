@@ -1,9 +1,9 @@
 // import Onboarding from "../components/Onboarding";
-import BrowseProducts from './BrowseProductsPage';
+// import BrowseProducts from './BrowseProductsPage';
 import ProductForm from '../components/ProductForm';
 
 const PlaygroundPage = () => {
-	return <ProductForm />;
+	return <ProductForm onSubmit={() => new Promise(() => {})} />;
 };
 
 export default PlaygroundPage;

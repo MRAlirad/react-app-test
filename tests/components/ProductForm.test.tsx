@@ -1,13 +1,11 @@
 import { it, expect, describe, beforeAll, afterAll, vi } from 'vitest';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ProductForm from '../../src/components/ProductForm';
 import AllProviders from '../AllProviders';
 import { Category, Product } from '../../src/entities';
 import { db } from '../mocks/db';
 import userEvent from '@testing-library/user-event';
 import { Toaster } from 'react-hot-toast';
-import { resolve } from 'path';
-import { rejects } from 'assert';
 
 describe('ProductForm', () => {
 	let category: Category;
