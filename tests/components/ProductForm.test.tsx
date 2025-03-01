@@ -26,22 +26,20 @@ describe('ProductForm', () => {
 		);
 
 		return {
-			waitForFormToLoad: () => screen.findByRole('form'),
-			getInputs: ()=> {
+			waitForFormToLoad: async () => {
+				await screen.findByRole('form');
 				return {
 					nameInput: screen.getByPlaceholderText(/name/i),
 					priceInput: screen.getByPlaceholderText(/price/i),
 					categoryInput: screen.getByRole('combobox', { name: /category/i }),
-				}
+				};
 			},
 		};
 	};
 
 	it('should render the form field', async () => {
-		const { waitForFormToLoad, getInputs } = renderCompnent();
-		await waitForFormToLoad();
-		
-		const {nameInput, priceInput, categoryInput} = getInputs();
+		const { waitForFormToLoad } = renderCompnent();
+		const { nameInput, priceInput, categoryInput } = await waitForFormToLoad();
 
 		expect(nameInput).toBeInTheDocument();
 		expect(priceInput).toBeInTheDocument();
@@ -56,13 +54,19 @@ describe('ProductForm', () => {
 			categoryId: category.id,
 		};
 
-		const { waitForFormToLoad, getInputs } = renderCompnent(product);
-		await waitForFormToLoad();
-		
-		const {nameInput, priceInput, categoryInput} = getInputs();
+		const { waitForFormToLoad } = renderCompnent(product);
+		const { nameInput, priceInput, categoryInput } = await waitForFormToLoad();
 
 		expect(nameInput).toHaveValue(product.name);
 		expect(priceInput).toHaveValue(product.price.toString());
 		expect(categoryInput).toHaveTextContent(category.name);
+	});
+
+	it('should put focus on the name field', async () => {
+		const { waitForFormToLoad } = renderCompnent();
+
+		const { nameInput } = await waitForFormToLoad();
+
+		expect(nameInput).toHaveFocus();
 	});
 });
