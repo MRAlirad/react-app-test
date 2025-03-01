@@ -26,35 +26,6 @@ describe('ProductForm', () => {
 			{ wrapper: AllProviders }
 		);
 
-		const nameInput = screen.getByPlaceholderText(/name/i);
-		const priceInput = screen.getByPlaceholderText(/price/i);
-		const categoryInput = screen.getByRole('combobox', { name: /category/i });
-		const submitButton = screen.getByRole('button');
-
-		type FormData = {
-			[K in keyof Product]: any;
-		};
-
-		const validData: FormData = {
-			id: 1,
-			categoryId: category.id,
-			name: 'Bread',
-			price: 10,
-		};
-
-		const fill = async (product: FormData) => {
-			const user = userEvent.setup();
-
-			if (product.name !== undefined) await user.type(nameInput, product.name);
-
-			if (product.price !== undefined) await user.type(priceInput, product.price.toString());
-
-			await user.click(categoryInput);
-			const options = screen.getAllByRole('option');
-			await user.click(options[0]);
-			await user.click(submitButton);
-		};
-
 		return {
 			expectErrorToBeInTheDocument: (errorMessage: RegExp) => {
 				const error = screen.getByRole('alert');
@@ -63,6 +34,36 @@ describe('ProductForm', () => {
 			},
 			waitForFormToLoad: async () => {
 				await screen.findByRole('form');
+
+				const nameInput = screen.getByPlaceholderText(/name/i);
+				const priceInput = screen.getByPlaceholderText(/price/i);
+				const categoryInput = screen.getByRole('combobox', { name: /category/i });
+				const submitButton = screen.getByRole('button');
+
+				type FormData = {
+					[K in keyof Product]: any;
+				};
+
+				const validData: FormData = {
+					id: 1,
+					categoryId: category.id,
+					name: 'Bread',
+					price: 10,
+				};
+
+				const fill = async (product: FormData) => {
+					const user = userEvent.setup();
+
+					if (product.name !== undefined) await user.type(nameInput, product.name);
+
+					if (product.price !== undefined) await user.type(priceInput, product.price.toString());
+
+					await user.click(categoryInput);
+					const options = screen.getAllByRole('option');
+					await user.click(options[0]);
+					await user.click(submitButton);
+				};
+
 				return {
 					nameInput,
 					priceInput,
